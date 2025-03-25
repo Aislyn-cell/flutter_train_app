@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:your_app_name/seat_page.dart';
 
 class StationListPage extends StatelessWidget {
+  const StationListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Map<String, String> args =

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:your_app_name/station_list_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   String? departureStation;
   String? arrivalStation;
 
@@ -77,3 +78,45 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+//add station list
+const List<String> stations = <String>[
+  '서울',
+  '부산',
+  '대전',
+  '대구',
+  '광주',
+  '울산',
+  '인천',
+  '수원',
+  '창원',
+  '전주',
+  '춘천',
+  '강릉',
+  '목포',
+  '여수',
+  '경주',
+  '포항',
+  '안동',
+  '제천',
+  '충주',
+  '원주',
+  '천안',
+  '아산',
+  '서산',
+  '군산',
+  '익산',
+  '정읍',
+  '남원',
+  '순천',
+  '진주',
+  '김천',
+  '구미',
+  '마산',
+  '진해',
+  '통영',
+  '거제',
+  '김해',
+  '양산',
+  '제주',
+];
