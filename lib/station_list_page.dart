@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_train_app/seat_page.dart'; // SeatPage import
 
 class StationListPage extends StatelessWidget {
-  const StationListPage({super.key}); // key 매개변수 추가
+  const StationListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final Map<String, String> args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('출발역')), // 앱바 타이틀 중앙 정렬
@@ -32,10 +30,16 @@ class StationListPage extends StatelessWidget {
                   bottom: BorderSide(color: Colors.grey[300]!), // 아래 테두리 색상
                 ),
               ),
-              child: Center(
-                child: Text(
-                  stations[index],
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              child: Padding(
+                // Padding 추가
+                padding: const EdgeInsets.only(left: 16.0), // 왼쪽 패딩 추가
+                child: Align(
+                  // Align 추가
+                  alignment: Alignment.centerLeft, // 왼쪽 정렬
+                  child: Text(
+                    stations[index],
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
