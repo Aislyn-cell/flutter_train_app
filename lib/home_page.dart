@@ -15,24 +15,22 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('기차 예매')), // 앱바 가운데 정렬
-      ),
+      appBar: AppBar(title: Center(child: Text('기차 예매'))),
       body: Padding(
-        padding: const EdgeInsets.all(20.0), // Scaffold body padding 20
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // 세로 가운데 정렬
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 200, // 높이 200
-              color: Colors.white, // 배경색 흰색
+              height: 200,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), // 모서리 둥글기 20
+                // BoxDecoration 사용
+                color: Colors.white, // 배경색 흰색
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceAround, // 출발역, 도착역 간격 동일하게 배치
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -59,18 +57,17 @@ class HomePageState extends State<HomePage> {
                                 child: Text(station),
                               );
                             }).toList(),
-                        hint: Text(
-                          '선택',
-                          style: TextStyle(fontSize: 40),
-                        ), // 선택 글자 크기 40
+                        hint: Text('선택', style: TextStyle(fontSize: 40)),
                       ),
                     ],
                   ),
-                  VerticalDivider(
-                    width: 2,
-                    thickness: 2,
-                    color: Colors.grey[400], // 세로선 색상
-                    // height: 50, // 세로선 높이
+                  SizedBox(
+                    height: 50,
+                    child: VerticalDivider(
+                      width: 2,
+                      thickness: 2,
+                      color: Colors.grey[400],
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -97,17 +94,14 @@ class HomePageState extends State<HomePage> {
                                 child: Text(station),
                               );
                             }).toList(),
-                        hint: Text(
-                          '선택',
-                          style: TextStyle(fontSize: 40),
-                        ), // 선택 글자 크기 40
+                        hint: Text('선택', style: TextStyle(fontSize: 40)),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20), // 좌석 선택 버튼과 박스 간 간격 20
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 if (departureStation != null && arrivalStation != null) {
@@ -126,9 +120,9 @@ class HomePageState extends State<HomePage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple, // 버튼 색상 보라색
+                backgroundColor: Colors.purple,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // 버튼 모서리 둥글기 20
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: Padding(
@@ -149,7 +143,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      backgroundColor: Colors.grey[200], // body 배경색 회색
+      backgroundColor: Colors.grey[200],
     );
   }
 }
