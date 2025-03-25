@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_train_app/stations.dart';
+import 'package:flutter_train_app/station_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
