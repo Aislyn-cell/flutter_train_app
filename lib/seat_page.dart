@@ -56,83 +56,78 @@ class _SeatPageState extends State<SeatPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(width: 24, height: 24, color: Colors.purple),
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
                   const SizedBox(width: 4),
                   const Text('선택됨'),
                   const SizedBox(width: 20),
-                  Container(width: 24, height: 24, color: Colors.grey[300]),
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
                   const SizedBox(width: 4),
                   const Text('선택 안됨'),
                 ],
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:
-                  ['A', 'B', 'C', 'D']
-                      .map(
-                        (label) => SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: Center(
-                            child: Text(label, style: TextStyle(fontSize: 18)),
-                          ),
-                        ),
-                      )
-                      .toList(),
+              mainAxisAlignment: MainAxisAlignment.spaceAround, // 균등 간격 배치
+              children: [
+                const SizedBox(width: 20), // A, B 시작 위치 조정
+                Text('A', style: TextStyle(fontSize: 18)),
+                Text('B', style: TextStyle(fontSize: 18)),
+                const SizedBox(width: 80), // C, D 시작 위치 조정
+                Text('C', style: TextStyle(fontSize: 18)),
+                Text('D', style: TextStyle(fontSize: 18)),
+                const SizedBox(width: 20),
+              ],
             ),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: 20,
+                itemCount: 10,
                 itemBuilder: (context, rowIndex) {
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceAround, // 좌석 그룹 간 간격 조정
                     children: [
+                      Row(
+                        children: [
+                          buildSeat(rowIndex * 4 + 1),
+                          const SizedBox(width: 10), // A, B 좌석 간 간격
+                          buildSeat(rowIndex * 4 + 2),
+                        ],
+                      ),
                       SizedBox(
-                        width: 50,
+                        width: 50, // 숫자 위치 조정
                         height: 50,
                         child: Center(
                           child: Text(
                             (rowIndex + 1).toString(),
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                      ...List.generate(4, (colIndex) {
-                        final seatNumber = rowIndex * 4 + colIndex + 1;
-                        final isSelected = selectedSeats.contains(seatNumber);
-
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isSelected) {
-                                selectedSeats.remove(seatNumber);
-                              } else {
-                                selectedSeats.add(seatNumber);
-                              }
-                            });
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color:
-                                  isSelected ? Colors.purple : Colors.grey[300],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '',
-                                style: TextStyle(
-                                  color:
-                                      isSelected ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                      Row(
+                        children: [
+                          buildSeat(rowIndex * 4 + 3),
+                          const SizedBox(width: 10), // C, D 좌석 간 간격
+                          buildSeat(rowIndex * 4 + 4),
+                        ],
+                      ),
                     ],
                   );
                 },
@@ -191,6 +186,30 @@ class _SeatPageState extends State<SeatPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildSeat(int seatNumber) {
+    final isSelected = selectedSeats.contains(seatNumber);
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            selectedSeats.remove(seatNumber);
+          } else {
+            selectedSeats.add(seatNumber);
+          }
+        });
+      },
+      child: Container(
+        width: 50,
+        height: 50,
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.purple : Colors.grey[300],
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );

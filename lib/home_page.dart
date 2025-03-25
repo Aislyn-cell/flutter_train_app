@@ -148,10 +148,7 @@ class HomePageState extends State<HomePage> {
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-            ),
+            // border 제거
             child: Text(
               selectedStation ?? '선택',
               style: TextStyle(fontSize: 40, color: Colors.black),
