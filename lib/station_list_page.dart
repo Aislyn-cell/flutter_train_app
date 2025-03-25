@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_train_app/seat_page.dart'; // SeatPage import
 
 class StationListPage extends StatelessWidget {
-  const StationListPage({super.key});
+  final bool isDeparture; // 출발역/도착역 여부
+
+  const StationListPage({super.key, required this.isDeparture});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('출발역')), // 앱바 타이틀 중앙 정렬
+        title: Center(child: Text(isDeparture ? '출발역' : '도착역')), // 조건에 맞게 제목 변경
       ),
       body: ListView.builder(
         itemCount: stations.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            // GestureDetector 추가
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SeatPage(),
-                ), // SeatPage로 이동
-              );
+              Navigator.pop(context, stations[index]); // 선택한 역 이름 반환
             },
             child: Container(
-              height: 50, // 기차역 이름 감싸는 영역 높이 50
+              height: 50,
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey[300]!), // 아래 테두리 색상
-                ),
+                border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
               ),
               child: Padding(
-                // Padding 추가
-                padding: const EdgeInsets.only(left: 16.0), // 왼쪽 패딩 추가
+                padding: const EdgeInsets.only(left: 16.0),
                 child: Align(
-                  // Align 추가
-                  alignment: Alignment.centerLeft, // 왼쪽 정렬
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     stations[index],
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

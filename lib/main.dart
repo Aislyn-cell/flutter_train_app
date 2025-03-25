@@ -16,8 +16,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/stationList': (context) => StationListPage(),
-        '/seat': (context) => SeatPage(),
+        '/stationList': (context) => StationListPage(isDeparture: true),
+        '/seat':
+            (context) => SeatPage(
+              departureStation: 'Station A',
+              arrivalStation: 'Station B',
+            ),
       },
     );
   }
