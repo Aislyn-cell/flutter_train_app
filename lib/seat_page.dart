@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart'; // CupertinoDialog 사용을 위해 추가
+import 'package:flutter/cupertino.dart';
 
 class SeatPage extends StatefulWidget {
   final String departureStation;
@@ -32,7 +32,7 @@ class _SeatPageState extends State<SeatPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.departureStation, // HomePage에서 전달받은 출발역 표시
+                    widget.departureStation,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class _SeatPageState extends State<SeatPage> {
                   ),
                   Icon(Icons.arrow_circle_right_outlined, size: 30),
                   Text(
-                    widget.arrivalStation, // HomePage에서 전달받은 도착역 표시
+                    widget.arrivalStation,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -52,7 +52,6 @@ class _SeatPageState extends State<SeatPage> {
               ),
             ),
             Padding(
-              // 좌석 상태 안내 레이블 추가
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -83,59 +82,58 @@ class _SeatPageState extends State<SeatPage> {
                       .toList(),
             ),
             Expanded(
-              child: GridView.builder(
+              child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 8,
-                ),
-                itemCount: 20 * 5,
-                itemBuilder: (context, index) {
-                  final row = index ~/ 5;
-                  final col = index % 5;
-                  final seatNumber = row * 4 + col + 1;
-                  final isSelected = selectedSeats.contains(seatNumber);
-
-                  if (col == 0) {
-                    return SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          (row + 1).toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    );
-                  }
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (isSelected) {
-                          selectedSeats.remove(seatNumber);
-                        } else {
-                          selectedSeats.add(seatNumber);
-                        }
-                      });
-                    },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: isSelected ? Colors.purple : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '',
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
+                itemCount: 20,
+                itemBuilder: (context, rowIndex) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Center(
+                          child: Text(
+                            (rowIndex + 1).toString(),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ),
                       ),
-                    ),
+                      ...List.generate(4, (colIndex) {
+                        final seatNumber = rowIndex * 4 + colIndex + 1;
+                        final isSelected = selectedSeats.contains(seatNumber);
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (isSelected) {
+                                selectedSeats.remove(seatNumber);
+                              } else {
+                                selectedSeats.add(seatNumber);
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color:
+                                  isSelected ? Colors.purple : Colors.grey[300],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '',
+                                style: TextStyle(
+                                  color:
+                                      isSelected ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
                   );
                 },
               ),
@@ -146,8 +144,7 @@ class _SeatPageState extends State<SeatPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed:
-                      selectedSeats
-                              .isNotEmpty // 선택된 좌석이 있을 때만 버튼 활성화
+                      selectedSeats.isNotEmpty
                           ? () {
                             showCupertinoDialog(
                               context: context,
@@ -163,18 +160,16 @@ class _SeatPageState extends State<SeatPage> {
                                       CupertinoDialogAction(
                                         child: const Text('확인'),
                                         onPressed: () {
-                                          Navigator.pop(context); // Dialog 제거
-                                          Navigator.pop(context); // SeatPage 제거
-                                          Navigator.pop(
-                                            context,
-                                          ); // HomePage로 이동
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
                                         },
                                       ),
                                     ],
                                   ),
                             );
                           }
-                          : null, // 선택된 좌석이 없으면 버튼 비활성화
+                          : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
                     shape: RoundedRectangleBorder(
