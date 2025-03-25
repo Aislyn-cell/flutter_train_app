@@ -4,7 +4,7 @@ import 'package:flutter_train_app/seat_page.dart';
 import 'package:flutter_train_app/station_list_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
