@@ -139,8 +139,15 @@ class HomePageState extends State<HomePage> {
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => StationListPage(isDeparture: isDeparture),
-              ), // isDeparture 전달
+                builder:
+                    (context) => StationListPage(
+                      isDeparture: isDeparture,
+                      selectedStation:
+                          isDeparture
+                              ? arrivalStation
+                              : departureStation, // 선택된 역 전달
+                    ),
+              ),
             );
             if (result != null && result is String) {
               onStationSelected(result);

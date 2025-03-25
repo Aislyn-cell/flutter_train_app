@@ -23,6 +23,12 @@ class MyApp extends StatelessWidget {
               arrivalStation: 'Station B',
             ),
       },
+      theme: ThemeData.light(), // 라이트 테마 설정
+      darkTheme: ThemeData.dark().copyWith(
+        // 다크 테마 설정 및 scaffoldBackgroundColor 변경
+        scaffoldBackgroundColor: Colors.grey[900], // 다크 테마 배경색 설정
+      ),
+      themeMode: ThemeMode.system, // 시스템 테마 모드 설정 (시스템 설정에 따라 라이트/다크 테마 자동 적용)
     );
   }
 }
