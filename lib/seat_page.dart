@@ -78,27 +78,33 @@ class SeatPageState extends State<SeatPage> {
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                // 예매하기 버튼 클릭 시 동작
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple, // 예매하기 버튼 색상
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // 예매하기 버튼 모서리 둥글기 20
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40,
-                  vertical: 16,
-                ),
-                child: Text(
-                  '예매하기',
-                  style: TextStyle(
-                    color: Colors.white, // 예매하기 글자 색상
-                    fontSize: 18, // 예매하기 글자 크기
-                    fontWeight: FontWeight.bold, // 예매하기 글자 두께
+            Padding(
+              // 예매하기 버튼 패딩 추가
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // 예매하기 버튼 클릭 시 동작
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ), // 예매하기 버튼 모서리 둥글기 20
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      '예매하기',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),

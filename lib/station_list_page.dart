@@ -9,9 +9,7 @@ class StationListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('출발역')), // 앱바 타이틀 중앙 정렬
-        leadingWidth: double.infinity, // leading 영역 너비 확장
       ),
-
       body: ListView.builder(
         itemCount: stations.length,
         itemBuilder: (context, index) {
