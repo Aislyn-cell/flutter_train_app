@@ -1,16 +1,55 @@
 # flutter_train_app
 
-A new Flutter project.
+## 프로젝트 개요
+본 프로젝트는 **Flutter**를 사용하여 개발한 기차 예매 앱으로, 사용자 친화적인 UI/UX를 제공하는 것을 목표로 합니다. 최신 트렌드를 반영하여 **다크 모드 지원**을 포함하였으며, 직관적인 예약 프로세스를 구축하여 사용자 경험을 극대화했습니다.
 
-## Getting Started
+## 주요 기능
+- **출발역/도착역 선택**: 사용자가 원하는 출발지와 목적지를 선택 가능
+- **좌석 선택**: 원하는 좌석을 선택하여 예약 진행
+- **다크 모드 지원**: 시스템 설정에 따라 자동 전환
+- **직관적인 UI/UX**: Material Design을 기반으로 최적화된 디자인 적용
 
-This project is a starting point for a Flutter application.
+## 개발 과정 및 문제 해결
 
-A few resources to get you started if this is your first Flutter project:
+### 1. UI/UX 개선
+#### 문제점
+- 초기 UI/UX가 다소 복잡하여 사용자가 원하는 기능을 찾기 어려움
+- 출발역/도착역 선택 및 좌석 선택 화면이 직관적이지 않음
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### 해결 방법
+- **Material Design 가이드라인**을 철저히 준수하여 UI를 전면 개선
+- 사용자의 사용 패턴을 분석하여 **자주 사용하는 기능을 더 쉽게 접근 가능**하도록 수정
+- **사용자 테스트**를 통해 피드백을 수집하고 불필요한 단계를 제거하여 UX 향상
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 2. 다크 모드 지원
+#### 문제점
+- iOS 시뮬레이터에서 다크 모드 설정이 원활하지 않음 (Features 메뉴에 Dark Appearance 옵션 없음)
+
+#### 해결 방법
+- 시뮬레이터 설정 앱을 통해 **다크 모드를 활성화**하는 방법 적용
+- 단축키 `Command + Shift + A`를 사용하여 다크 모드 전환 가능하도록 설정
+- `main.dart`에서 **ThemeData**를 활용하여 다크 모드 테마를 정의
+- 다크 모드에서도 **가독성과 심미성을 유지**하도록 앱바, 텍스트, 카드, 다이얼로그 등의 색상을 조정
+
+### 3. 출발역/도착역 선택 시 동일한 역 선택 불가 기능
+#### 문제점
+- 출발역과 도착역에 동일한 역을 선택할 수 있어 논리적 오류 발생
+
+#### 해결 방법
+- **StationListPage 위젯**에 `selectedStation` 매개변수를 추가하여 이미 선택된 역을 전달받도록 수정
+- `HomePage`에서 `StationListPage`를 호출할 때, `selectedStation`을 전달하여 동일한 역 선택 불가 기능 구현
+
+## 💡 프로젝트를 통해 느낀 점
+- Flutter의 강력한 기능과 **유연성**을 통해 사용자 친화적인 앱을 개발할 수 있었음
+- 다크 모드 적용 과정에서 여러 문제를 겪었지만, 이를 해결하면서 **문제 해결 능력**을 키울 수 있었음
+- UI/UX의 중요성을 다시 한번 깨닫고, **사용자 중심의 개발 프로세스**를 경험할 수 있었음
+- **팀원들과의 협업을 통해** 효율적으로 프로젝트를 진행하며, 코드 리뷰 및 의견 공유의 중요성을 체감함
+
+## 향후 개선 사항
+- 더욱 다양한 **기차 노선 및 시간표 정보 제공**
+- **결제 기능** 추가 (카드, 간편 결제 지원)
+- **사용자 맞춤형 추천 기능** 추가 (이전 예매 내역 기반 추천 시스템)
+- **더욱 향상된 UI/UX 제공** (애니메이션 효과 및 반응형 디자인 개선)
+
+## 결론
+이번 프로젝트를 통해 **Flutter 앱 개발 능력뿐만 아니라, 문제 해결 능력, 협업 능력 등 다양한 역량을 향상**할 수 있었습니다. 앞으로도 지속적으로 학습하고 발전하여 더욱 좋은 앱을 개발할 수 있도록 노력하겠습니다! 
