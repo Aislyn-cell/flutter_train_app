@@ -16,8 +16,17 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('기차 예매'))),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.black, // 검정색 배경
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            '기차 예매',
+            style: TextStyle(color: Colors.white), // 하얀색 텍스트
+          ),
+        ),
+        backgroundColor: Colors.transparent, // 투명한 앱바 배경
+        elevation: 0, // 그림자 제거
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -27,7 +36,7 @@ class HomePageState extends State<HomePage> {
               height: 200,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey[900], // 회색 배경 색상
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -39,13 +48,13 @@ class HomePageState extends State<HomePage> {
                     setState(() {
                       departureStation = station;
                     });
-                  }, true), // isDeparture: true (출발역)
+                  }, true),
                   SizedBox(
                     height: 50,
                     child: VerticalDivider(
                       width: 2,
                       thickness: 2,
-                      color: Colors.grey[400],
+                      color: Colors.grey[700], // 회색 선
                     ),
                   ),
                   _buildStationSelection(context, '도착역', arrivalStation, (
@@ -54,7 +63,7 @@ class HomePageState extends State<HomePage> {
                     setState(() {
                       arrivalStation = station;
                     });
-                  }, false), // isDeparture: false (도착역)
+                  }, false),
                 ],
               ),
             ),
@@ -79,12 +88,22 @@ class HomePageState extends State<HomePage> {
                       context: context,
                       builder:
                           (context) => AlertDialog(
-                            title: Text('오류'),
-                            content: Text('출발역과 도착역을 모두 선택해주세요.'),
+                            backgroundColor: Colors.grey[900], // 회색 다이어로그
+                            title: Text(
+                              '오류',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            content: Text(
+                              '출발역과 도착역을 모두 선택해주세요.',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Text('확인'),
+                                child: Text(
+                                  '확인',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ],
                           ),
@@ -121,7 +140,7 @@ class HomePageState extends State<HomePage> {
     String title,
     String? selectedStation,
     Function(String?) onStationSelected,
-    bool isDeparture, // isDeparture 변수 추가
+    bool isDeparture,
   ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -143,9 +162,7 @@ class HomePageState extends State<HomePage> {
                     (context) => StationListPage(
                       isDeparture: isDeparture,
                       selectedStation:
-                          isDeparture
-                              ? arrivalStation
-                              : departureStation, // 선택된 역 전달
+                          isDeparture ? arrivalStation : departureStation,
                     ),
               ),
             );
@@ -155,10 +172,9 @@ class HomePageState extends State<HomePage> {
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            // border 제거
             child: Text(
               selectedStation ?? '선택',
-              style: TextStyle(fontSize: 40, color: Colors.black),
+              style: TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
         ),

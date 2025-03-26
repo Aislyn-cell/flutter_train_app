@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
@@ -23,12 +24,44 @@ class MyApp extends StatelessWidget {
               arrivalStation: 'Station B',
             ),
       },
-      theme: ThemeData.light(), // 라이트 테마 설정
-      darkTheme: ThemeData.dark().copyWith(
-        // 다크 테마 설정 및 scaffoldBackgroundColor 변경
-        scaffoldBackgroundColor: Colors.grey[900], // 다크 테마 배경색 설정
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black, // 앱바 배경색을 검정색으로 변경
+          foregroundColor: Colors.white, // 하얀색 아이콘과 텍스트
+          elevation: 0, // 그림자 제거
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.grey[900],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        colorScheme: ColorScheme.dark(
+          primary: Colors.purple,
+          secondary: Colors.purpleAccent,
+          surface: Colors.black,
+          onPrimary: Colors.white,
+          onSurface: Colors.white,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.purple,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
       ),
-      themeMode: ThemeMode.system, // 시스템 테마 모드 설정 (시스템 설정에 따라 라이트/다크 테마 자동 적용)
+      themeMode: ThemeMode.dark, // 다크 모드로 설정
     );
   }
 }
