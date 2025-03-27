@@ -12,40 +12,68 @@ class StationListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 이미 선택된 역을 제외한 역 목록 생성
-    List<String> filteredStations =
-        stations.where((station) => station != selectedStation).toList();
+    List<String> filteredStations = [];
+
+    try {
+      // 이미 선택된 역을 제외한 역 목록 생성
+      filteredStations =
+          stations.where((station) => station != selectedStation).toList();
+    } catch (e) {
+      // 예외 발생 시 빈 리스트로 초기화하여 앱 종료 방지
+      filteredStations = [];
+      debugPrint('예외 발생: $e');
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text(isDeparture ? '출발역' : '도착역')), // 조건에 맞게 제목 변경
       ),
-      body: ListView.builder(
-        itemCount: filteredStations.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.pop(context, filteredStations[index]); // 선택한 역 이름 반환
-            },
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    filteredStations[index],
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+      body:
+          filteredStations.isNotEmpty
+              ? ListView.builder(
+                itemCount: filteredStations.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      try {
+                        Navigator.pop(
+                          context,
+                          filteredStations[index],
+                        ); // 선택한 역 이름 반환
+                      } catch (e) {
+                        debugPrint('Navigator 예외 발생: $e');
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey[300]!),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            filteredStations[index],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              )
+              : Center(
+                child: Text(
+                  '선택할 수 있는 역이 없습니다.',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-          );
-        },
-      ),
     );
   }
 }

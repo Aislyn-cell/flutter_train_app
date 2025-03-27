@@ -141,28 +141,45 @@ class _SeatPageState extends State<SeatPage> {
                   onPressed:
                       selectedSeats.isNotEmpty
                           ? () {
-                            showCupertinoDialog(
-                              context: context,
-                              builder:
-                                  (context) => CupertinoAlertDialog(
-                                    title: const Text('예매 확인'),
-                                    content: const Text('선택하신 좌석으로 예매하시겠습니까?'),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                        child: const Text('취소'),
-                                        onPressed: () => Navigator.pop(context),
+                            try {
+                              showCupertinoDialog(
+                                context: context,
+                                builder:
+                                    (context) => CupertinoAlertDialog(
+                                      title: const Text('예매 확인'),
+                                      content: const Text(
+                                        '선택하신 좌석으로 예매하시겠습니까?',
                                       ),
-                                      CupertinoDialogAction(
-                                        child: const Text('확인'),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                            );
+                                      actions: [
+                                        CupertinoDialogAction(
+                                          child: const Text('취소'),
+                                          onPressed:
+                                              () => Navigator.pop(context),
+                                        ),
+                                        CupertinoDialogAction(
+                                          child: const Text('확인'),
+                                          onPressed: () {
+                                            try {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            } catch (e) {
+                                              _showErrorDialog(
+                                                context,
+                                                '예매 처리 중 오류가 발생했습니다.\n$e',
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                              );
+                            } catch (e) {
+                              _showErrorDialog(
+                                context,
+                                '예매 창을 여는 중 오류가 발생했습니다.\n$e',
+                              );
+                            }
                           }
                           : null,
                   style: ElevatedButton.styleFrom(
@@ -195,13 +212,19 @@ class _SeatPageState extends State<SeatPage> {
     final isSelected = selectedSeats.contains(seatNumber);
     return GestureDetector(
       onTap: () {
-        setState(() {
-          if (isSelected) {
-            selectedSeats.remove(seatNumber);
-          } else {
-            selectedSeats.add(seatNumber);
+        try {
+          if (mounted) {
+            setState(() {
+              if (isSelected) {
+                selectedSeats.remove(seatNumber);
+              } else {
+                selectedSeats.add(seatNumber);
+              }
+            });
           }
-        });
+        } catch (e) {
+          _showErrorDialog(context, '좌석 선택 중 오류가 발생했습니다.\n$e');
+        }
       },
       child: Container(
         width: 50,
@@ -212,6 +235,24 @@ class _SeatPageState extends State<SeatPage> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.grey[900],
+            title: Text('오류 발생', style: TextStyle(color: Colors.white)),
+            content: Text(message, style: TextStyle(color: Colors.white)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('확인', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
     );
   }
 }

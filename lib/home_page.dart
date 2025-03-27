@@ -16,16 +16,13 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // 검정색 배경
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            '기차 예매',
-            style: TextStyle(color: Colors.white), // 하얀색 텍스트
-          ),
+        title: const Center(
+          child: Text('기차 예매', style: TextStyle(color: Colors.white)),
         ),
-        backgroundColor: Colors.transparent, // 투명한 앱바 배경
-        elevation: 0, // 그림자 제거
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -36,43 +33,44 @@ class HomePageState extends State<HomePage> {
               height: 200,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.grey[900], // 회색 배경 색상
+                color: Colors.grey[900],
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildStationSelection(context, '출발역', departureStation, (
-                    station,
-                  ) {
-                    setState(() {
-                      departureStation = station;
-                    });
+                  _buildStationSelection('출발역', departureStation, (station) {
+                    if (mounted) {
+                      setState(() {
+                        departureStation = station;
+                      });
+                    }
                   }, true),
                   SizedBox(
                     height: 50,
                     child: VerticalDivider(
                       width: 2,
                       thickness: 2,
-                      color: Colors.grey[700], // 회색 선
+                      color: Colors.grey[700],
                     ),
                   ),
-                  _buildStationSelection(context, '도착역', arrivalStation, (
-                    station,
-                  ) {
-                    setState(() {
-                      arrivalStation = station;
-                    });
+                  _buildStationSelection('도착역', arrivalStation, (station) {
+                    if (mounted) {
+                      setState(() {
+                        arrivalStation = station;
+                      });
+                    }
                   }, false),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   if (departureStation != null && arrivalStation != null) {
+                    if (!context.mounted) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -84,30 +82,7 @@ class HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
-                    showDialog(
-                      context: context,
-                      builder:
-                          (context) => AlertDialog(
-                            backgroundColor: Colors.grey[900], // 회색 다이어로그
-                            title: Text(
-                              '오류',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            content: Text(
-                              '출발역과 도착역을 모두 선택해주세요.',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  '확인',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                    );
+                    _showErrorDialog('출발역과 도착역을 모두 선택해주세요.');
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -116,8 +91,8 @@ class HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   child: Text(
                     '좌석 선택',
                     style: TextStyle(
@@ -136,7 +111,6 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _buildStationSelection(
-    BuildContext context,
     String title,
     String? selectedStation,
     Function(String?) onStationSelected,
@@ -147,7 +121,7 @@ class HomePageState extends State<HomePage> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.grey,
             fontWeight: FontWeight.bold,
@@ -155,30 +129,54 @@ class HomePageState extends State<HomePage> {
         ),
         GestureDetector(
           onTap: () async {
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder:
-                    (context) => StationListPage(
-                      isDeparture: isDeparture,
-                      selectedStation:
-                          isDeparture ? arrivalStation : departureStation,
-                    ),
-              ),
-            );
-            if (result != null && result is String) {
-              onStationSelected(result);
+            try {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => StationListPage(
+                        isDeparture: isDeparture,
+                        selectedStation:
+                            isDeparture ? arrivalStation : departureStation,
+                      ),
+                ),
+              );
+              if (!mounted) return;
+              if (result != null && result is String) {
+                onStationSelected(result);
+              }
+            } catch (error) {
+              _showErrorDialog('역 선택 중 오류가 발생했습니다.\n$error');
             }
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
               selectedStation ?? '선택',
-              style: TextStyle(fontSize: 40, color: Colors.white),
+              style: const TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    if (!context.mounted) return;
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.grey[900],
+            title: const Text('오류 발생', style: TextStyle(color: Colors.white)),
+            content: Text(message, style: const TextStyle(color: Colors.white)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('확인', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
     );
   }
 }
